@@ -1,7 +1,18 @@
-import { arcosPrefernce } from "./Controls/helpers.ts/prefernces";
+const express = require('express');
+const app = express();
+const http = require('http');
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server);
 
-console.log(arcosPrefernce(0.2) )
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/index.html');
+});
 
-for (let i = -10; i < 10; i++) {
-    console.log(arcosPrefernce(i/10) )
-}
+io.on('connection', (socket) => {
+  console.log('a user connected');
+});
+
+server.listen(3000, () => {
+  console.log('listening on *:3000');
+});
