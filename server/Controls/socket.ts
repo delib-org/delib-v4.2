@@ -1,4 +1,4 @@
-import { io } from "../server";
+import { io } from "../../server";
 
 export async function userConnect(socket: any) {
   socket.on("join-room", (roomId: any) => {
