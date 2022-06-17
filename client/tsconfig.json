@@ -22,5 +22,5 @@
   },
   "include": [
     "src"
-, "../Controls/socket.ts"  ]
+, "../server/Controls/socket.ts"  ]
 }

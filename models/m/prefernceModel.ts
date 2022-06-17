@@ -1,5 +1,5 @@
 //prefernce, is the prefernce of a user twoard some option.
-import {uid} from '../controls/helpers/general';
+import {uid} from '../Controls/helpers/general';
 
 
 class Prefernce{

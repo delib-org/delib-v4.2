@@ -1,0 +1,20 @@
+.home {
+  background-color: $mainBackground;
+  color: white;
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  &__title {
+    margin: 20px;
+    text-align: center;
+    h1 {
+        font-size: 4rem;
+    }
+    a{
+        color: wheat;
+    }
+  }
+}
