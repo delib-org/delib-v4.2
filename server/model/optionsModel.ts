@@ -1,4 +1,4 @@
-import { uid } from "../Controls/helpers/general";
+import { uid } from "../controls/helpers/general";
 
 class Option{
     id:string;

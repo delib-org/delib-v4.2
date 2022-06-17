@@ -7,7 +7,7 @@ export const io = new Server(server);
 const port = process.env.PORT || 4000;
 var cors = require("cors");
 
-import { userConnect } from "./Controls/socket";
+import { userConnect } from "./controls/socket";
 
 import Decision from 'models/m/decisionModel'
 
