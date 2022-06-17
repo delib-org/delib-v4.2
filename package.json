@@ -2,11 +2,11 @@
   "name": "delib-v4.2",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server/dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "npm run webpack",
-    "webpack": "webpack"
+    "postinstall": "cd client && npm run build",
+    "start": "node server/dist/index.js"
   },
   "repository": {
     "type": "git",

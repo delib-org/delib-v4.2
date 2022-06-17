@@ -17,7 +17,10 @@ var corsOptions = {
 }
 
 
+
 app.use(cors(corsOptions));
+
+app.use(express.static('client/build'))
 
 io.on("connection", (socket: any) => {
   userConnect(socket);
