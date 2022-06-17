@@ -62,7 +62,7 @@ const Room = () => {
         <input type="submit" value="Send" />
       </form>
       <ul>
-        {texts.map((text, index) => {
+        {texts.filter(text=>text.roomId === roomId).map((text, index) => {
           return <li key={index}>{text.text}</li>;
         })}
       </ul>
