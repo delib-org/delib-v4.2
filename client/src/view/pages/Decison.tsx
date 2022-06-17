@@ -3,44 +3,44 @@ import { useParams } from "react-router-dom";
 
 import { socket } from "../../index";
 
-    // import {Decision} from 
 
 interface Text {
   text: string;
-  roomId: string;
+  decisionId: string;
   date: Date;
 }
 let textsTemp: Array<Text> = [];
 
 const Room = () => {
+
   const [texts, setTexts] = useState<Array<Text>>([]);
   const [up, setUp] = useState<number>(2);
 
-  const { roomId } = useParams();
+  const { decisionId } = useParams();
 
   useEffect(() => {
-    if (roomId) {
-      socket.emit("join-room", roomId);
+    if (decisionId) {
+      socket.emit("join-decision", decisionId);
     }
 
-    socket.on("room-talk", (text) => {
-      if (text && roomId) {
-        textsTemp.push({ text, roomId, date: new Date() });
+    socket.on("decision-talk", (text) => {
+      if (text && decisionId) {
+        textsTemp.push({ text, decisionId, date: new Date() });
         setTexts(textsTemp);
         setUp(Math.random());
       }
     });
 
     return () => {
-      socket.emit("leave-room", roomId);
-      socket.off("room-talk");
+      socket.emit("leave-decision", decisionId);
+      socket.off("decision-talk");
     };
 
     // eslint-disable-next-line
-  }, [roomId]);
+  }, [decisionId]);
 
   useEffect(() => {
-    console.log(up);
+   
   }, [up]);
 
   function handleSubmit(ev: any) {
@@ -48,7 +48,7 @@ const Room = () => {
       ev.preventDefault();
       const text = ev.target.text.value;
 
-      socket.emit("talk-to-room", { text, roomId });
+      socket.emit("talk-to-decision", { text, decisionId });
     } catch (error) {
       console.error(error);
     } finally {
@@ -58,13 +58,13 @@ const Room = () => {
 
   return (
     <div>
-      <h2>Room: {roomId}</h2>
+      <h2>Room: {decisionId}</h2>
       <form onSubmit={handleSubmit}>
         <input type="text" name="text" placeholder="enter text" />
         <input type="submit" value="Send" />
       </form>
       <ul>
-        {texts.filter(text=>text.roomId === roomId).map((text, index) => {
+        {texts.filter(text=>text.decisionId === decisionId).map((text, index) => {
           return <li key={index}>{text.text}</li>;
         })}
       </ul>

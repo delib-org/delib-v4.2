@@ -3,7 +3,7 @@
 const Rooms = () => {
    
   return (
-    <div>Rooms</div>
+    <div>Decisions</div>
   )
 }
 

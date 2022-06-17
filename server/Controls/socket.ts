@@ -1,26 +1,24 @@
 import { io } from "../../server";
 
 export async function userConnect(socket: any) {
-  socket.on("join-room", (roomId: any) => {
-    if (roomId) {
-      socket.join(roomId);
+  socket.on("join-decision", (decisionId: any) => {
+    if (decisionId) {
+      socket.join(decisionId);
     }
   });
-  socket.on("leave-room", (roomId: any) => {
-    if (roomId) {
-      socket.leave(roomId);
+  socket.on("leave-decision", (decisionId: any) => {
+    if (decisionId) {
+      socket.leave(decisionId);
     }
   });
 
-  socket.on("talk-to-room", ({ roomId, text }) => {
+  socket.on("talk-to-decision", ({ decisionId, text }) => {
     try {
-      io.to(roomId).emit("room-talk", text);
+      io.to(decisionId).emit("decision-talk", text);
     } catch (error) {}
   });
 
-  socket.on("msg", ({ text }) => {
-    io.emit("msg", { text });
-  });
+
 
   socket.on("disconnect", () => {
     console.log("user disconnected");
