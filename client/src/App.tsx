@@ -6,6 +6,9 @@ import Main from "./view/pages/Main";
 import Decisions from "./view/pages/Decisions";
 import Home from "./view/pages/Home";
 
+//style
+import './view/styles/app.scss'
+
 function App() {
   return (
     <BrowserRouter>
