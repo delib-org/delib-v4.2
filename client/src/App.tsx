@@ -32,7 +32,8 @@ function App() {
     socket.on('msg',({text})=>{
       console.log(text)
       setTextPar(text);
-    })
+    });
+    
     return () => {
       console.log("off");
       socket.off("hi2");
