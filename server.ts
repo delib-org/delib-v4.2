@@ -9,11 +9,12 @@ var cors = require("cors");
 
 import { userConnect } from "./Controls/socket";
 
-app.use(cors());
+var corsOptions = {
+  origin: 'http://localhost:3000',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
 
-// app.get("/", (req, res) => {
-//   res.sendFile(__dirname + "/index.html");
-// });
+app.use(cors(corsOptions));
 
 io.on("connection", (socket: any) => {
   userConnect(socket);

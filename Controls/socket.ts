@@ -1,14 +1,9 @@
 import { io } from "../server";
 
 export async function userConnect(socket: any) {
-  console.log("a user connected");
-  console.log(socket.id);
   socket.on("join-room", (roomId: any) => {
-    console.log("join room ", roomId);
-
     if (roomId) {
       socket.join(roomId);
-      console.log(socket.rooms);
     }
   });
   socket.on("leave-room", (roomId: any) => {
