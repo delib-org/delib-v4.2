@@ -5,6 +5,8 @@ import Room from "./view/pages/Room";
 import Main from "./view/pages/Main";
 import Rooms from "./view/pages/Rooms";
 
+import {sayHelloTo} from 'test';
+
 function App() {
   return (
     <BrowserRouter>
