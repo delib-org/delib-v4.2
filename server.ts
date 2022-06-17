@@ -9,12 +9,13 @@ var cors = require("cors");
 
 app.use(cors());
 
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/index.html");
-});
+// app.get("/", (req, res) => {
+//   res.sendFile(__dirname + "/index.html");
+// });
 
 io.on("connection", (socket) => {
   let counter = 0;
+
   console.log("a user connected");
   console.log(socket.id)
 
@@ -28,7 +29,7 @@ io.on("connection", (socket) => {
 
   socket.on('msg',({text})=>{
     console.log(text)
-    io.emit('msg', {text});
+    socket.broadcast.emit('msg', {text});
   })
 
   const clearCounterInterval = setInterval(() => {

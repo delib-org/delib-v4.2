@@ -1,3 +1,6 @@
+
+// -----
+
 import { useEffect, useState } from "react";
 
 import logo from "./logo.svg";
@@ -29,7 +32,8 @@ function App() {
     socket.on('msg',({text})=>{
       console.log(text)
       setTextPar(text);
-    })
+    });
+    
     return () => {
       console.log("off");
       socket.off("hi2");
@@ -41,7 +45,7 @@ function App() {
     socket.emit("hi", { hi: Math.floor(Math.random() * 1000) });
   }
 
-function handleText(ev){
+function handleText(ev:any){
   const text = ev.target.value;
   socket.emit('msg',{text})
 }
