@@ -15,7 +15,7 @@ const Main = () => {
         <h2>Decisions</h2>
         <ul>
         <Link to={`/`}><li >main page</li></Link>
-            {decisions.map(decision=><Link key={decision.id} to={`/${decision.id}`}><li >{decision.name}</li></Link>)}
+            {decisions.map(decision=><Link key={decision.id} to={`/decisions/${decision.id}`}><li >{decision.name}</li></Link>)}
         </ul>
         <Outlet />
     </div>

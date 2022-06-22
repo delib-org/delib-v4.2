@@ -10,11 +10,11 @@ exports.io = new Server(server);
 const port = process.env.PORT || 4000;
 var cors = require("cors");
 const socket_1 = require("./controls/socket");
-// var corsOptions = {
-//   origin: 'http://localhost:3000',
-//   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-// }
-app.use(cors());
+var corsOptions = {
+    origin: 'http://localhost:3000',
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+app.use(cors(corsOptions));
 app.use(express.static('client/build'));
 exports.io.on("connection", (socket) => {
     (0, socket_1.userConnect)(socket);
