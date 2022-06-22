@@ -5,7 +5,7 @@
   "main": "server.ts",
   "scripts": {
     "start": "node dist/server.js",
-    "postinstall": "tsc",
+    "postinstall": "tsc && cd client && npm i && npm run build",
     "watch-node": "nodemon dist/index.js",
     "watch-ts": "tsc -w"
   },
