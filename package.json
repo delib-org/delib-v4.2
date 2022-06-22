@@ -4,10 +4,11 @@
   "description": "",
   "main": "server.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "tsc": "ts-node server.ts",
-    "postinstall":"cd client && npm i && npm run build",
-    "start": "ts-node server.ts"
+    "start": "node dist/index.js",
+    "postinstall": "tsc",
+    "watch-node": "nodemon dist/index.js",
+    "watch-ts": "tsc -w",
+    "deploy": "git add . && git commit -m Heroku && git push heroku master"
   },
   "repository": {
     "type": "git",
@@ -30,8 +31,6 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.18.1",
-    "socket.io": "^4.5.1",
-    "typescript": "^4.7.3",
-    "ts-node": "^10.8.1"
+    "socket.io": "^4.5.1"
   }
 }
