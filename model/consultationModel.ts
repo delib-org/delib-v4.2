@@ -1,4 +1,4 @@
-import {uid} from "../Controls/helpers/general";
+import {uid} from "../controls/helpers/general";
 
 import Entitiy from './entityModel';
 import Option from './optionsModel';
