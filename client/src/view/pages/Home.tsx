@@ -1,13 +1,21 @@
 import logo from "../img/logo-192px.png";
 import { GoogleLogin } from "@react-oauth/google";
+import { useDispatch } from 'react-redux'
+import axios from 'axios';
+
 
 const Home = () => {
-  const handleGoogleLogin = (credentialResponse: any) => {
+  const dispatch = useDispatch()
+
+  const handleGoogleLogin = async (credentialResponse: any) => {
     try {
       if (credentialResponse) {
         const { credential } = credentialResponse;
         if (credential) {
           console.log(credential);
+          const {data} = await axios.post('/users/login',{credential});
+
+          console.log(data)
         }
       }
     } catch (error) {

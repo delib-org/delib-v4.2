@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import { store } from "./model/store";
+import { Provider } from "react-redux";
 import "./index.css";
 import App from "./App";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
@@ -8,15 +10,16 @@ import reportWebVitals from "./reportWebVitals";
 import { io } from "socket.io-client";
 export const socket = io();
 
-
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <GoogleOAuthProvider clientId="572413208285-plfibouhajfkd16mk0gvvlsp2kaath04.apps.googleusercontent.com">
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
+    <Provider store={store}>
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    </Provider>
   </GoogleOAuthProvider>
 );
 

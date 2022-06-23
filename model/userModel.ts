@@ -1,3 +1,4 @@
+
 import { uid } from "../controls/helpers/general";
 
 class User {
@@ -15,5 +16,7 @@ class User {
         this.updated_at = new Date();
     }
 }
+
+
 
 export default User;

@@ -1,11 +1,14 @@
 const express = require("express");
 const app = express();
 const http = require("http");
+const mongoose = require('mongoose');
+require('dotenv').config();
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 export const io = new Server(server);
 const port = process.env.PORT || 4000;
 var cors = require("cors");
+
 
 import { userConnect } from "./controls/socket";
 
@@ -18,9 +21,11 @@ var corsOptions = {
 
 
 
-
+const uri = process.env.MONGODB_URI;
 
 app.use(cors(corsOptions));
+
+mongoose.connect(uri).then(()=>console.log('connect to DB!')).catch(err=>console.log(err.message));
 
 app.use(express.static('client/build'))
 
