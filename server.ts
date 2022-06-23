@@ -8,7 +8,7 @@ const { Server } = require("socket.io");
 export const io = new Server(server);
 const port = process.env.PORT || 4000;
 var cors = require("cors");
-
+app.use(express.json())
 
 import { userConnect } from "./controls/socket";
 
@@ -32,6 +32,9 @@ app.use(express.static('client/build'))
 io.on("connection", (socket: any) => {
   userConnect(socket);
 });
+
+import usersRouter from './routes/usersRoute';
+app.use('/users', usersRouter);
 
 server.listen(port, () => {
   console.log(`listening on *:${port}`);

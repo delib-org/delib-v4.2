@@ -1,7 +1,19 @@
-
+import mongoose from "mongoose";
 import { uid } from "../controls/helpers/general";
 
-class User {
+export interface UserProps{
+     id: number;
+     name: string;
+     email: string;
+     created_at: Date;
+     updated_at: Date;
+     given_name:string;
+     family_name:string;
+     picture:string;
+     sub:string;
+}
+
+export class User {
     public id: number;
     public name: string;
     public email: string;
@@ -18,5 +30,21 @@ class User {
 }
 
 
+const UserSchema = new mongoose.Schema({
+    name:String,
+    given_name:String,
+    family_name:String,
+    email_verified:Boolean,
+    email:String,
+    created_at:Date,
+    update_at:Date,
+    googleUid:String,
+    picture:String,
+    sub:String,
+    last_enter:Date
+})
 
-export default User;
+const UserModel = mongoose.model('users', UserSchema);
+
+
+export default UserModel;

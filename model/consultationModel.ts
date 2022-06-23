@@ -3,7 +3,7 @@ import {uid} from "../controls/helpers/general";
 import Entitiy from './entityModel';
 import Option from './optionsModel';
 import Team from './teamModel';
-import User from './userModel';
+import {User} from './userModel';
 
 interface ConsultationProps{
     id: string;
