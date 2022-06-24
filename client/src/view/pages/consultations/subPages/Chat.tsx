@@ -6,8 +6,8 @@ const Chat = () => {
   const {consultationId} = useParams();
   useEffect(()=>{
     socket.emit('join-consultation', consultationId)
-    socket.on('consultation-message',(msg)=>{
-      console.log(msg)
+    socket.on('consultation-message',(message)=>{
+      console.log(message)
     })
     return ()=>{
       socket.off('consultation-message');
