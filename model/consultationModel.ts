@@ -1,5 +1,11 @@
 import mongoose from 'mongoose';
 import {uid} from "../controls/helpers/general";
+import Joi from 'joi';
+
+
+
+
+
 
 import Entitiy from './entityModel';
 import Option from './optionsModel';
@@ -26,6 +32,11 @@ export const ConsultationSchema = new mongoose.Schema({
 
 export const ConsulationModel = mongoose.model('consultations', ConsultationSchema)
 
+export const ConsultationValidation = Joi.object({
+    _id:Joi.string(),
+    name:Joi.string().required(),
+    description:Joi.string().required()
+})
 
 class Question{
     public id: string;

@@ -14,20 +14,21 @@ const NewConsultation = () => {
   async function handleAddConsultation(ev: any) {
     ev.preventDefault();
     try {
-     
       const name = ev.target.elements.name.value;
       const description = ev.target.elements.description.value;
       setLoading(true);
-      const { data } = await axios.post("/consultations/add-consultation", {
-        name,
-        description,
+      const { data } = await axios.post("/cosultations/add-consultation", {
+        consultation: {
+          name,
+          description,
+        },
       });
       const { consultation } = data;
-      const { value , error} = ConsultationValidation.validate(consultation);
+      const { value, error } = ConsultationValidation.validate(consultation);
       if (value) {
         dispatch(setConsultation(value));
-      } else{
-        throw error
+      } else {
+        throw error;
       }
       setLoading(false);
       navigate("/consultations");
