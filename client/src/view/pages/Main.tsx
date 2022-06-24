@@ -56,17 +56,7 @@ const Main = () => {
   }, [logged]);
   return (
     <div>
-      <h2>Consultations</h2>
-      <ul>
-        <Link to={`/`}>
-          <li>main page</li>
-        </Link>
-        {!waiting?consultations.map((consultation) => (
-          <Link key={consultation._id} to={`/consultations/${consultation._id}`}>
-            <li>{consultation.name}</li>
-          </Link>
-        )):<Spinner />}
-      </ul>
+      <h1>התייעצויות</h1>
       <Outlet />
     </div>
   );

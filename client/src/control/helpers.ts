@@ -1,12 +1,15 @@
 export function updateArray(currentArray:Array<any>, newItem:any):Array<any>{
     try {
         const arrayTemp = [...currentArray];
+      
         if(!newItem._id){
             arrayTemp.push(newItem);
         } else{
             //find arry;
             const index = arrayTemp.findIndex(item=>item._id === newItem._id);
-            arrayTemp[index] =  newItem;
+            if(index === -1) arrayTemp.push(newItem);
+            else arrayTemp[index] =  newItem;
+
         }
 
         return arrayTemp;

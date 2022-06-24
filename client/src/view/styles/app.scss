@@ -9,6 +9,7 @@ $halfPrimary: #7994E7;
 @import 'home';
 @import 'btns';
 @import 'forms';
+@import 'card';
 
 body{
     font-family: 'Fredoka', sans-serif;
@@ -18,6 +19,19 @@ body{
 .wrapper{
     margin: auto;
     max-width: 75ch;
+    padding-bottom: 100px;
+}
+main{
+    background: rgb(207,205,255);
+    background: linear-gradient(90deg, rgba(207,205,255,1) 0%, rgba(195,195,255,1) 14%, rgba(208,247,255,1) 100%);
+}
+
+h1, h2{
+    text-align: center;
+}
+h1{
+    color: rgba(0, 0, 0, 0.752);
+    font-weight: 500;
 }
 
 
