@@ -28,6 +28,8 @@ const Main = () => {
     
           if (value) {
             dispatch(setLogin(value));
+          } else{
+            navigate('/')
           }
         })
         .catch((err) => {

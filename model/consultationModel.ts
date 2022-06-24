@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import {uid} from "../controls/helpers/general";
 import Joi from 'joi';
+import {UserSchema} from '../model/userModel';
 
 
 
@@ -27,7 +28,8 @@ interface ConsultationProps{
 
 export const ConsultationSchema = new mongoose.Schema({
     name:String,
-    description:String
+    description:String,
+    creator:UserSchema
 })
 
 export const ConsulationModel = mongoose.model('consultations', ConsultationSchema)
@@ -35,7 +37,8 @@ export const ConsulationModel = mongoose.model('consultations', ConsultationSche
 export const ConsultationValidation = Joi.object({
     _id:Joi.string(),
     name:Joi.string().required(),
-    description:Joi.string().required()
+    description:Joi.string().required(),
+    creator:Joi.object()
 })
 
 class Question{

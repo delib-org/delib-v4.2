@@ -30,7 +30,7 @@ export class User {
 }
 
 
-const UserSchema = new mongoose.Schema({
+export const UserSchema = new mongoose.Schema({
     name:String,
     given_name:String,
     family_name:String,
