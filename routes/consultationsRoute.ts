@@ -1,8 +1,9 @@
 import express from 'express';
 const router = express.Router();
 import { decodeUser } from '../controls/usersCont';
-import { addConsultation } from "../controls/consulatationCont";
+import { addConsultation, getUserConsultations } from "../controls/consulatationCont";
 
-router.post('/add-consultation',decodeUser, addConsultation);
+router.post('/add-consultation',decodeUser, addConsultation)
+.get('/get-user-consultations',decodeUser, getUserConsultations);
 
 export default router;

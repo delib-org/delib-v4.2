@@ -10,7 +10,7 @@ import { setLogin } from "../../control/slices/userSlice";
 import { useIsLogged } from "../../control/hooks";
 
 //cont
-import { getUser } from "../../control/get";
+import { getUser } from "../../control/db/userDB";
 import { UserSchema } from "../../model/userModelC";
 
 const Home = () => {

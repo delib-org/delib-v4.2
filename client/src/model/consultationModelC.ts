@@ -11,3 +11,5 @@ export const ConsultationValidation = Joi.object({
     name:Joi.string().required(),
     description:Joi.string().required()
 })
+
+export const ConsultationsValidation = Joi.array().items(ConsultationValidation)

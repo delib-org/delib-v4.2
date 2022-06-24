@@ -33,3 +33,20 @@ export async function addConsultation(req: any, res: any) {
     res.send({ error: err.message });
   }
 }
+
+export async function getUserConsultations(req: any, res: any) {
+  try {
+    const user = req.user;
+    if (!user) throw new Error("User is missing");
+    const consultationsDB = await ConsulationModel.find({
+      create: { sub: user.sub },
+    });
+    if (!Array.isArray(consultationsDB))
+      throw new Error("consulatations are not an array");
+
+    res.send({ success: true, consultations: consultationsDB });
+  } catch (err) {
+    console.error(err);
+    res.send({ error: err.message });
+  }
+}

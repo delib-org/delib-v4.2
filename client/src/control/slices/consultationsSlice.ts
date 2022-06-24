@@ -1,6 +1,6 @@
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ConsultationProps,ConsultationValidation } from "../../model/consultationModelC";
+import { ConsultationProps,ConsultationValidation,ConsultationsValidation } from "../../model/consultationModelC";
 import { updateArray } from "../helpers";
 
 export interface ConsultationsState {
@@ -24,10 +24,18 @@ export const consultationsSlice = createSlice({
         state.consultations = updateArray(state.consultations,consultation);
       }
     },
+    createConsultations:(state, action:PayloadAction<Array<ConsultationProps>>)=>{
+      const {value} = ConsultationsValidation.validate(action.payload)
+      if (value) {
+        
+
+        state.consultations = value;
+      }
+    }
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setConsultation } = consultationsSlice.actions;
+export const { setConsultation,createConsultations } = consultationsSlice.actions;
 
 export default consultationsSlice.reducer;

@@ -1,3 +1,4 @@
+// get consultations
 import { Link } from "react-router-dom";
 
 const Consultations = () => {
