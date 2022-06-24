@@ -1,25 +1,26 @@
 import { io } from "../server";
 
 export async function userConnect(socket: any) {
-  console.log('user connected', socket.id)
-  socket.on("join-decision", (decisionId: any) => {
-    if (decisionId) {
-      socket.join(decisionId);
+  console.log("user connected", socket.id);
+  socket.on("join-consultation", (consultationId: any) => {
+    if (consultationId) {
+      socket.join(consultationId);
+      console.log(`user ${socket.id} joined ${consultationId}`);
     }
   });
-  socket.on("leave-decision", (decisionId: any) => {
-    if (decisionId) {
-      socket.leave(decisionId);
+  socket.on("leave-consultation", (consultationId: any) => {
+    if (consultationId) {
+      socket.leave(consultationId);
+      console.log(`user ${socket.id} LEFT ${consultationId}`);
     }
   });
 
-  socket.on("talk-to-decision", ({ decisionId, text }) => {
+  socket.on("consultation-message", ({ consultationId, message }) => {
     try {
-      io.to(decisionId).emit("decision-talk", text);
+      console.log("consultation-message:", message);
+      io.to(consultationId).emit("consultation-message", message);
     } catch (error) {}
   });
-
-
 
   socket.on("disconnect", () => {
     console.log("user disconnected");

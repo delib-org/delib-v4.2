@@ -4,7 +4,7 @@ import { getConsultation } from "../../../control/db/consutationsDB";
 import { useAppDispatch, useAppSelector } from "../../../control/hooks";
 import { setConsultation } from "../../../control/slices/consultationsSlice";
 
-import { socket } from "../../../index";
+
 import { ConsultationProps } from "../../../model/consultationModelC";
 
 //components

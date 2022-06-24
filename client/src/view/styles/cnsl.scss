@@ -4,4 +4,20 @@
     top: 0px;
     background-color: white;
   }
+
+  .chat{
+    form{
+        position: fixed;
+        bottom: 0px;
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        padding: 20px 10px;
+        box-sizing: border-box;
+
+        input{
+            flex:auto
+        }
+    }
+  }
 }
