@@ -25,7 +25,7 @@ const Main = () => {
         .then((userDB: any) => {
         
           const { value } = UserSchema.validate(userDB);
-          console.log(value)
+    
           if (value) {
             dispatch(setLogin(value));
           }

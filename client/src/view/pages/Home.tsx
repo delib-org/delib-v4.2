@@ -19,7 +19,7 @@ const Home = () => {
   const logged = useIsLogged();
 
   useEffect(() => {
-    console.log(logged)
+   
     if (!logged) {
       getUser()
         .then((userDB: any) => {

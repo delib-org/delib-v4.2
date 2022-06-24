@@ -5,6 +5,7 @@ import Decision from "./view/pages/Decison";
 import Main from "./view/pages/Main";
 import Decisions from "./view/pages/Consultations";
 import Home from "./view/pages/Home";
+import NotFound from "./view/pages/NotFound";
 
 //style
 import './view/styles/app.scss'
@@ -13,6 +14,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+      <Route path='*' element={<NotFound />} />
         <Route path="/" element={<Home />} />
         <Route path="/consultations" element={<Main />}>
           <Route index element={<Decisions />} />
