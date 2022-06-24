@@ -1,6 +1,7 @@
 import { io } from "../server";
 
 export async function userConnect(socket: any) {
+  console.log('user connected', socket.id)
   socket.on("join-decision", (decisionId: any) => {
     if (decisionId) {
       socket.join(decisionId);

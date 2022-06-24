@@ -2,13 +2,16 @@ const express = require("express");
 const app = express();
 const http = require("http");
 const mongoose = require('mongoose');
+const cookieParser = require('cookie-parser')
+
 require('dotenv').config();
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 export const io = new Server(server);
 const port = process.env.PORT || 4000;
 var cors = require("cors");
-app.use(express.json())
+app.use(express.json());
+app.use(cookieParser())
 
 import { userConnect } from "./controls/socket";
 
@@ -23,7 +26,7 @@ var corsOptions = {
 
 const uri = process.env.MONGODB_URI;
 
-app.use(cors(corsOptions));
+app.use(cors());
 
 mongoose.connect(uri).then(()=>console.log('connect to DB!')).catch(err=>console.log(err.message));
 

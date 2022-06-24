@@ -1,7 +1,8 @@
 import express from 'express';
-import { login } from '../controls/usersCont';
+import { login,getUser,decodeUser } from '../controls/usersCont';
 const router = express.Router();
 
-router.post('/login', login);
+router.post('/login', login)
+.get('/get-user',decodeUser, getUser);
 
 export default router;
