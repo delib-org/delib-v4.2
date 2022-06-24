@@ -1,0 +1,20 @@
+.topNav {
+  background-color: aqua;
+  display: flex;
+  &__tab {
+    background-color: rgb(236, 236, 236);
+    flex: 1;
+    text-align: center;
+    transition: all 200ms;
+    color: black;
+    padding: 20px;
+    cursor: pointer;
+    user-select: none;
+   
+    &--selected {
+      background-color:rgb(222, 222, 222);
+      font-weight: 500;
+   
+    }
+  }
+}
