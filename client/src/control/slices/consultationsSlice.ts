@@ -1,11 +1,10 @@
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { UserSchema } from "../../model/userModelC";
-export interface ConsultationsProps{
+import { ConsultationProps,ConsultationValidation } from "../../model/consultationModelC";
+import { updateArray } from "../helpers";
 
-}
 export interface ConsultationsState {
-  consultations: Array<ConsultationsProps>;
+  consultations: Array<ConsultationProps>;
 }
 
 const initialState: ConsultationsState = {
@@ -16,10 +15,13 @@ export const consultationsSlice = createSlice({
   name: "consultations",
   initialState,
   reducers: {
-    setConsultation: (state, action: PayloadAction<ConsultationsProps>) => {
-      const { value } = UserSchema.validate(action.payload);
+    setConsultation: (state, action: PayloadAction<ConsultationProps>) => {
+      const { value } = ConsultationValidation.validate(action.payload);
+     
       if (value) {
-        state.consultations = value;
+        const consultation:ConsultationProps = value; 
+
+        state.consultations = updateArray(state.consultations,consultation);
       }
     },
   },

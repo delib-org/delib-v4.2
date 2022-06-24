@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ConsultationsProps } from "./slices/consultationsSlice";
+import { ConsultationProps } from "../model/consultationModelC";
 
 export function getUser() {
   return new Promise((resolve, reject) => {
@@ -22,7 +22,7 @@ export function getUser() {
   });
 }
 
-export async function getUserConsultations(userId:string):Promise<Array<ConsultationsProps>|false>{
+export async function getUserConsultations(userId:string):Promise<Array<ConsultationProps>|false>{
     try {
         const {data} = await axios.get('/consultations/get-user-consultations');
         if(!data) throw new Error('No data exists');

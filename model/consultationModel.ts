@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import {uid} from "../controls/helpers/general";
 
 import Entitiy from './entityModel';
@@ -17,6 +18,14 @@ interface ConsultationProps{
         entitiy:Entitiy
     }>
 }
+
+export const ConsultationSchema = new mongoose.Schema({
+    name:String,
+    description:String
+})
+
+export const ConsulationModel = mongoose.model('consultations', ConsultationSchema)
+
 
 class Question{
     public id: string;
