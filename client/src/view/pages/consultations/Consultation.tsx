@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { socket } from "../../index";
+import { socket } from "../../../index";
 
 
 interface Text {
@@ -11,7 +11,7 @@ interface Text {
 }
 let textsTemp: Array<Text> = [];
 
-const Room = () => {
+const Consultation = () => {
 
   const [texts, setTexts] = useState<Array<Text>>([]);
   const [up, setUp] = useState<number>(2);
@@ -72,6 +72,6 @@ const Room = () => {
   );
 };
 
-Room.propTypes = {};
 
-export default Room;
+
+export default Consultation;

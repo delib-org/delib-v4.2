@@ -7,7 +7,7 @@ const cryptr = new Cryptr(cryptSecret);
 
 export async function login(req: any, res: any) {
   try {
-    console.log(req.body);
+ 
     const { credential } = req.body;
 
     if (!credential || typeof credential !== "string")
@@ -15,7 +15,7 @@ export async function login(req: any, res: any) {
 
     const decoded: UserProps = jwt_decode(credential);
 
-    console.log(decoded);
+ 
     const { name, given_name, family_name, email, picture, sub } = decoded;
     const filter = { sub };
 
@@ -37,7 +37,7 @@ export async function login(req: any, res: any) {
     res.cookie("user", hide, { httpOnly: true, maxAge: 6000000 });
     res.send({ success: true, user: { sub, name, picture } });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.send({ error: error.message });
   }
 }
@@ -50,7 +50,7 @@ export async function getUser(req: any, res: any) {
     res.send({ user });
 
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.send({ error: error.message, user:false });
   }
 }
@@ -61,6 +61,7 @@ export async function decodeUser(req, res, next) {
     if (!user) {
       req.user = false;
       next();
+      return;
     }
     const show = cryptr.decrypt(user);
 
@@ -70,7 +71,7 @@ export async function decodeUser(req, res, next) {
     req.user = userDecoded;
     next();
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.send({ error: error.message });
   }
 }
