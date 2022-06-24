@@ -15,7 +15,7 @@ export enum SubPage {
   INFO = "מידע",
   CHAT = "שיחה",
   OPTIONS = "חלופות",
-  VOTES='הצבעה'
+  VOTES = "הצבעה",
 }
 const subPages = [SubPage.INFO, SubPage.CHAT, SubPage.OPTIONS, SubPage.VOTES];
 
@@ -42,9 +42,11 @@ const Consultation = () => {
 
   if (conaultation) {
     return (
-      <div>
-        <h2>התייעצות: {conaultation.name}</h2>
-        <TopNav elements={subPages} setSelected={setPage} selected={page} />
+      <div className="cnsl">
+        <div className="cnsl__top">
+          <h2>{conaultation.name}</h2>
+          <TopNav elements={subPages} setSelected={setPage} selected={page} />
+        </div>
         <SubPages page={page} />
       </div>
     );
