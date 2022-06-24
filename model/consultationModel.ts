@@ -11,6 +11,7 @@ interface ConsultationProps{
     description: string;
     stakeholders: User[];
     teams: Array<Team>;
+    img:string;
     parentes:Array<{
         id:string,
         entitiy:Entitiy

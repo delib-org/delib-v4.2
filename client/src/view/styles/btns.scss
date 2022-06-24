@@ -4,13 +4,23 @@
   justify-content: center;
   width: 100%;
 }
-a{
-  .btn{
-    text-decoration: none;
-  }
+a {
+  text-decoration: none;
 }
-
-.btn {
+input[type=file]{
+  width: max-content;
+  padding: 12px 25px;
+  margin: 5px 10px;
+  background: $accent;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  user-select: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+.btn, button {
   width: max-content;
   padding: 12px 25px;
   margin: 5px 10px;
@@ -44,8 +54,6 @@ a{
     background: #51d051 !important;
   }
 
-
-
   &--negative {
     color: red;
   }
@@ -68,13 +76,9 @@ a{
     color: rgb(63, 63, 63);
 
     &:hover {
-        background: rgb(126 122 122 / 21%);
-      }
+      background: rgb(126 122 122 / 21%);
+    }
   }
-
-  
-
- 
 }
 
 .fav {

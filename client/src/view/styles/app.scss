@@ -8,7 +8,16 @@ $halfPrimary: #7994E7;
 
 @import 'home';
 @import 'btns';
+@import 'forms';
 
 body{
     font-family: 'Fredoka', sans-serif;
+    direction: rtl;
 }
+
+.wrapper{
+    margin: auto;
+    max-width: 75ch;
+}
+
+
