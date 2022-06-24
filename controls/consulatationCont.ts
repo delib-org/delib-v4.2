@@ -50,3 +50,18 @@ export async function getUserConsultations(req: any, res: any) {
     res.send({ error: err.message });
   }
 }
+
+export async function getConsultation(req: any, res: any) {
+  try {
+    const {consultationId} = req.query;
+    if (!consultationId) throw new Error("consultationId is missing");
+    const consultationDB = await ConsulationModel.findOne({ _id: consultationId});
+    if (!consultationDB)
+      throw new Error(`Consulatation id: ${consultationId} is missing in DB`);
+
+    res.send({ success: true, consultation: consultationDB });
+  } catch (err) {
+    console.error(err);
+    res.send({ error: err.message });
+  }
+}

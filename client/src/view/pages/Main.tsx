@@ -56,7 +56,7 @@ const Main = () => {
   }, [logged]);
   return (
     <div>
-      <h1>התייעצויות</h1>
+      <Link to='/consultations'><h1>התייעצויות</h1></Link>
       <Outlet />
     </div>
   );

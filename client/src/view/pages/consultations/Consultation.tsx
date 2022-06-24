@@ -1,77 +1,38 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { getConsultation } from "../../../control/db/consutationsDB";
+import { useAppDispatch,useAppSelector } from "../../../control/hooks";
+import { setConsultation } from "../../../control/slices/consultationsSlice";
 
 import { socket } from "../../../index";
-
-
-interface Text {
-  text: string;
-  decisionId: string;
-  date: Date;
-}
-let textsTemp: Array<Text> = [];
+import { ConsultationProps } from "../../../model/consultationModelC";
 
 const Consultation = () => {
-
-  const [texts, setTexts] = useState<Array<Text>>([]);
-  const [up, setUp] = useState<number>(2);
-
-  const { decisionId } = useParams();
+  const dispatch = useAppDispatch();
+  const { consultationId } = useParams();
+  const conaultation:ConsultationProps|undefined = useAppSelector(state=>state.consultations.consultations.find(cnsl=>cnsl._id === consultationId))
 
   useEffect(() => {
-    if (decisionId) {
-      socket.emit("join-decision", decisionId);
-    }
-
-    socket.on("decision-talk", (text) => {
-      if (text && decisionId) {
-        textsTemp.push({ text, decisionId, date: new Date() });
-        setTexts(textsTemp);
-        setUp(Math.random());
+    if (consultationId) getConsultation(consultationId)
+    .then(consultationDB=>{
+      console.log(consultationDB)
+      if(consultationDB){
+        dispatch(setConsultation(consultationDB))
       }
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [consultationId]);
 
-    return () => {
-      socket.emit("leave-decision", decisionId);
-      socket.off("decision-talk");
-    };
-
-    // eslint-disable-next-line
-  }, [decisionId]);
-
-  useEffect(() => {
-   
-  }, [up]);
-
-  function handleSubmit(ev: any) {
-    try {
-      ev.preventDefault();
-      const text = ev.target.text.value;
-
-      socket.emit("talk-to-decision", { text, decisionId });
-    } catch (error) {
-      console.error(error);
-    } finally {
-      //   ev.target.reset();
-    }
+  if(conaultation){
+    return (
+      <div>
+        <h2>התייעצות: {conaultation.name}</h2>
+      </div>
+    );
+  } else {
+    return null
   }
-
-  return (
-    <div>
-      <h2>Room: {decisionId}</h2>
-      <form onSubmit={handleSubmit}>
-        <input type="text" name="text" placeholder="enter text" />
-        <input type="submit" value="Send" />
-      </form>
-      <ul>
-        {texts.filter(text=>text.decisionId === decisionId).map((text, index) => {
-          return <li key={index}>{text.text}</li>;
-        })}
-      </ul>
-    </div>
-  );
+ 
 };
-
-
 
 export default Consultation;
