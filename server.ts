@@ -41,6 +41,8 @@ app.use('/users', usersRouter);
 import consutationsRouter from './routes/consultationsRoute';
 app.use('/cosultations', consutationsRouter);
 
+
+
 server.listen(port, () => {
   console.log(`listening on *:${port}`);
 });

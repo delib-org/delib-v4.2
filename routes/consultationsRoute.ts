@@ -1,10 +1,12 @@
 import express from 'express';
 const router = express.Router();
 import { decodeUser } from '../controls/usersCont';
-import { addConsultation, getUserConsultations,getConsultation } from "../controls/consulatationCont";
+import { addConsultation, getUserConsultations,getConsultation,addText,getText } from "../controls/consulatationCont";
 
 router.post('/add-consultation',decodeUser, addConsultation)
 .get('/get-user-consultations',decodeUser, getUserConsultations)
 .get('/get-consultation', getConsultation)
+.post('/add-text',addText)
+.get('/get-text', getText)
 
 export default router;
