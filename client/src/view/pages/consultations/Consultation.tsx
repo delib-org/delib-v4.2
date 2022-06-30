@@ -12,12 +12,13 @@ import TopNav from "../../components/TopNav";
 import SubPages from "./subPages/SubPages";
 
 export enum SubPage {
-  INFO = "מידע",
+  INTRO = "הקדמה",
+  INFO='מידע',
   CHAT = "שיחה",
   OPTIONS = "חלופות",
   VOTES = "הצבעה",
 }
-const subPages = [SubPage.INFO, SubPage.CHAT, SubPage.OPTIONS, SubPage.VOTES];
+const subPages = [SubPage.INTRO, SubPage.INFO, SubPage.CHAT, SubPage.OPTIONS, SubPage.VOTES];
 
 const Consultation = () => {
   const dispatch = useAppDispatch();
@@ -27,7 +28,7 @@ const Consultation = () => {
       (cnsl) => cnsl._id === consultationId
     )
   );
-  const [page, setPage] = useState<SubPage>(SubPage.INFO);
+  const [page, setPage] = useState<SubPage>(SubPage.INTRO);
 
   useEffect(() => {
     if (consultationId)

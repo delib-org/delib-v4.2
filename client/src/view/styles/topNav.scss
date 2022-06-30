@@ -1,6 +1,7 @@
 .topNav {
   background-color: aqua;
   display: flex;
+  overflow-x: auto;
   &__tab {
     background-color: rgb(236, 236, 236);
     flex: 1;

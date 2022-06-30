@@ -1,6 +1,7 @@
 import { SubPage } from "../Consultation";
 import Chat from "./Chat";
 import Info from "./Info";
+import Intro from "./Intro";
 import Options from "./Options";
 import Vote from "./Vote";
 
@@ -11,8 +12,10 @@ interface SubPagesProps {
 const SubPages = (props: SubPagesProps) => {
   const { page } = props;
   switch (page) {
-    case SubPage.INFO:
-      return <Info />;
+    case SubPage.INTRO:
+      return <Intro />;
+      case SubPage.INFO:
+        return <Info />;
     case SubPage.CHAT:
       return <Chat />;
     case SubPage.OPTIONS:
@@ -20,7 +23,7 @@ const SubPages = (props: SubPagesProps) => {
     case SubPage.VOTES:
       return <Vote />;
     default:
-      return <Info />;
+      return <Intro />;
   }
 };
 
