@@ -1,8 +1,5 @@
 import mongoose from "mongoose";
-import {
-  ConsulationModel,
-  ConsultationValidation,
-} from "../model/consultationModel";
+import ConsulationModel, { ConsultationValidation,} from "../model/consultationModel";
 
 export async function addConsultation(req: any, res: any) {
   try {

@@ -1,10 +1,17 @@
 import mongoose from 'mongoose';
 
 const MembershipSchema = new mongoose.Schema({
-    memberId:String,
-    teamId:String,
+    memberId:{
+        type:String,
+        required:true
+    },
+    groupId:{
+        type:String,
+        required:true
+    },
     role:{
         type:String,
+        required:true,
         enum:['creator','admin','member'],
         default:'member'
     }
