@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getConsultation } from "../../../../control/db/consutationsDB";
 import styles from "./ask.module.scss";
+import { socket } from "../../../..";
 
 const ConsultationAsk = () => {
   const { consultationId } = useParams();
@@ -21,6 +22,14 @@ const ConsultationAsk = () => {
       }
     } catch (error) {}
   }, [consultationId]);
+
+  function handleAskToJoin(){
+    try {
+      socket.emit('ask-to-join-consultation',{consultationId})
+    } catch (error) {
+      console.error(error);
+    }
+  }
   return (
     <div className="page">
       <div className="wrapper">
@@ -30,7 +39,7 @@ const ConsultationAsk = () => {
           <p>זאת התייעצות סגורה</p>
           <p>לחצו כאן כדי לבקש להצטרף לקבוצה</p>
           <div className="btns">
-            <button>בקשת הצטרפות</button>
+            <button onClick={handleAskToJoin}>בקשת הצטרפות</button>
           </div>
         </div>
       </div>
