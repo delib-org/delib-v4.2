@@ -13,8 +13,8 @@ let saveState: Object = {};
 
 function AEditor() {
   const [editorState, setEditorState] = useState<EditorState>(() => {
-    const content = localStorage.getItem("content");
-    if(content) console.log(JSON.parse(content))
+  
+ 
   
     if (false) {
       return EditorState.createWithContent(convertFromRaw(JSON.parse('')));
@@ -27,7 +27,7 @@ function AEditor() {
     axios
       .get(`/cosultations/get-text?textId=62bdac01305a762b8bc661ea`)
       .then(({ data }) => {
-        console.log(data);
+    
         try {
           if (!data) throw new Error("No data in axios");
 
@@ -37,7 +37,7 @@ function AEditor() {
 
           const { saveState } = text;
           if (!saveState) throw new Error("no saveState in text");
-          console.log(saveState);
+   
           setEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(saveState))));
         } catch (error) {
           console.error(error);
@@ -52,7 +52,7 @@ function AEditor() {
   }
 
   function onChange(editorState: EditorState) {
-    console.log("change");
+
     const contentState = editorState.getCurrentContent();
     saveState = convertToRaw(contentState);
 
@@ -61,10 +61,10 @@ function AEditor() {
   }
 
   async function handleSave() {
-    console.log(saveState);
+  
     const saveStateString = JSON.stringify(saveState);
     const { data } = await axios.post("/cosultations/add-text", { saveState:saveStateString });
-    console.log(data);
+  console.log(data)
     try {
     } catch (error) {
       console.error(error);

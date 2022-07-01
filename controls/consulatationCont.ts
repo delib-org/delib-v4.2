@@ -1,13 +1,13 @@
 import mongoose from "mongoose";
 import ConsultaionModel, {
   ConsultationValidation,
+  GroupType,
 } from "../model/consultationModel";
 import MembershipModel, { Membership, Role } from "../model/membershipModel";
 import { User } from "../model/userModel";
 
 export async function addConsultation(req: any, res: any) {
   try {
-    console.log("addConsultation");
     const { consultation } = req.body;
     if (!consultation) throw new Error("consultation is missing");
     const user = req.user;
@@ -15,8 +15,6 @@ export async function addConsultation(req: any, res: any) {
 
     consultation.creator = user;
 
-    const { value, error } = ConsultationValidation.validate(consultation);
-    if (error) throw error;
     if (consultation._id) {
       const consultationDB = await ConsultaionModel.findOneAndUpdate(
         { _id: consultation._id },
@@ -25,7 +23,7 @@ export async function addConsultation(req: any, res: any) {
           upsert: true, // Make this update into an upsert
         }
       );
-     
+
       // const membershipDB = await MembershipModel.create({memberId:user.sub, groupId:consultationDB._id, role:Role.CREATOR});
       // console.log('Membership:', membershipDB)
       res.send({ success: true, consultation: consultationDB });
@@ -82,11 +80,36 @@ export async function getConsultation(req: any, res: any) {
     // const consultationDB = await ConsultaionModel.findOne({
     //   _id: consultationId,
     // });
-    console.log("role:", role);
+
     if (!consultationDB)
       throw new Error(`Consulatation id: ${consultationId} is missing in DB`);
-
-    res.send({ success: true, consultation: consultationDB });
+    
+      //not a mebmer but the group is public, so register member to the group
+    //if group is close, and the user has no role, redirect to ask to join group page
+    //if the group is secret, and the user has no role, redirect to consultations
+    if (role) {
+      res.send({ success: true, consultation: consultationDB, userRole: role });
+    } else if (consultationDB.type === GroupType.PUBLIC) {
+      await MembershipModel.create({
+        MemberId: user.sub,
+        groupId: consultationId,
+        role: Role.MEMBER,
+      });
+      res.send({
+        success: true,
+        consultation: consultationDB,
+      });
+    } else if (consultationDB.type === GroupType.CLOSE) {
+      res.send({
+        consultation:consultationDB,
+        success: false,
+        redirect: `/consultation-ask/${consultationDB._id}`,
+      });
+    } else if (consultationDB.type === GroupType.SECRET) {
+      res.send({ success: false, redirect: `/consultations/consultation-not` });
+    } else {
+      throw new Error("No role and no group type");
+    }
   } catch (err) {
     console.error(err);
     res.send({ error: err.message });
@@ -98,6 +121,7 @@ async function getUserRoleInConsultation(
   consultationId: string
 ): Promise<Role | false> {
   try {
+    console.log('user:', user)
     const membershipDB: Membership = await MembershipModel.findOne({
       memberId: user.sub,
       groupId: consultationId,
@@ -106,7 +130,7 @@ async function getUserRoleInConsultation(
       throw new Error(
         `No membership for user ${user.name} in consultationId ${consultationId}`
       );
-    if (!("role" in MembershipModel))
+    if (!("role" in membershipDB))
       throw new Error(
         `No membership role for user ${user.name} in consultationId ${consultationId}`
       );

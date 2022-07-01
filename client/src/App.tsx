@@ -13,6 +13,8 @@ import NotFound from "./view/pages/NotFound";
 
 //style
 import "./view/styles/app.scss";
+import ConsultationAsk from "./view/pages/consultations/ConsultationAsk/ConsultationAsk";
+import ConsultationDontExist from "./view/pages/consultations/ConsultationDontExist";
 
 function App() {
   return (
@@ -24,7 +26,9 @@ function App() {
           <Route index element={<Consultations />} />
           <Route path=":consultationId" element={<Consultation />} />
           <Route path="new-consultation" element={<NewConsultation />} />
+          <Route path='consultation-not' element={<ConsultationDontExist/>}/>
         </Route>
+        <Route path='/consultation-ask/:consultationId' element={<ConsultationAsk />} />      
       </Routes>
     </BrowserRouter>
   );

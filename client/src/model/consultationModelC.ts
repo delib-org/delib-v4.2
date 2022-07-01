@@ -1,9 +1,11 @@
 import Joi from 'joi';
+import { Role } from './role';
 
 export interface ConsultationProps{
     _id?:string;
     name:string;
     description:string;
+    userRole?:Role
 }
 
 export const ConsultationValidation = Joi.object({

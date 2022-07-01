@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getConsultation } from "../../../control/db/consutationsDB";
 import { useAppDispatch, useAppSelector } from "../../../control/hooks";
 import { setConsultation } from "../../../control/slices/consultationsSlice";
-
 
 import { ConsultationProps } from "../../../model/consultationModelC";
 
@@ -13,14 +12,21 @@ import SubPages from "./subPages/SubPages";
 
 export enum SubPage {
   INTRO = "הקדמה",
-  INFO='מידע',
+  INFO = "מידע",
   CHAT = "שיחה",
   OPTIONS = "חלופות",
   VOTES = "הצבעה",
 }
-const subPages = [SubPage.INTRO, SubPage.INFO, SubPage.CHAT, SubPage.OPTIONS, SubPage.VOTES];
+const subPages = [
+  SubPage.INTRO,
+  SubPage.INFO,
+  SubPage.CHAT,
+  SubPage.OPTIONS,
+  SubPage.VOTES,
+];
 
 const Consultation = () => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { consultationId } = useParams();
   const conaultation: ConsultationProps | undefined = useAppSelector((state) =>
@@ -32,12 +38,25 @@ const Consultation = () => {
 
   useEffect(() => {
     if (consultationId)
-      getConsultation(consultationId).then((consultationDB) => {
-        console.log(consultationDB);
-        if (consultationDB) {
-          dispatch(setConsultation(consultationDB));
-        }
-      });
+      getConsultation(consultationId)
+        .then(({ consultation, error, redirect }) => {
+          try {
+            if (error) throw error;
+            if (redirect) {
+              console.log(redirect)
+              navigate(redirect);
+            }
+            console.log(consultation);
+            if (consultation) {
+              dispatch(setConsultation(consultation));
+            }
+          } catch (err) {
+            console.error(err);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [consultationId]);
 

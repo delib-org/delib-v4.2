@@ -10,17 +10,23 @@ const NewConsultation = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState<boolean>(false);
+  const [save,setSave] = useState<boolean>(false);
 
   async function handleAddConsultation(ev: any) {
     ev.preventDefault();
     try {
       const name = ev.target.elements.name.value;
       const description = ev.target.elements.description.value;
+      const type = ev.target.elements.type.value;
+
+      if(!name || ! description) return;
+      
       setLoading(true);
       const { data } = await axios.post("/cosultations/add-consultation", {
         consultation: {
           name,
           description,
+          type
         },
       });
       const { consultation } = data;
@@ -44,10 +50,16 @@ const NewConsultation = () => {
         {!loading ? (
           <form onSubmit={handleAddConsultation}>
             <label>הגדרות כלליות</label>
-            <input type="text" name="name" placeholder="נושא ההתיעצות" />
-            <textarea name="description" placeholder="תיאור ההתיעצות" />
+            <input type="text" name="name" placeholder="נושא ההתיעצות" required/>
+            <textarea name="description" placeholder="תיאור ההתיעצות" required/>
+            <select name="type" defaultValue='none' onChange={()=>{setSave(true)}}>
+              <option disabled={true} value='none'>בחרו סוג שקיפות</option>
+              <option value='public'>כל אחד יוכל להצטרף ולהשפיע</option>
+              <option value='close'>קבוצה סגורה - רק חברים יכולים להשפיע - כולם יראו אותה</option>
+              <option value='secret'>קבוצה סודית - רק מוזמנים יראו אותה</option>
+            </select>
             <div className="btns">
-              <button type="submit">הוספה</button>
+              {save?<button type="submit">הוספה</button>:null}
               <Link to="/consultations">
                 <div className="btn btn--cancel">ביטול</div>
               </Link>
