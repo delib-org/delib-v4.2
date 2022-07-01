@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useAppSelector } from "../../../../control/hooks";
 
 //components
-import AEditor from "../../../components/Editor";
+import Editor from "../../../components/Editor";
 
 const Intro = () => {
   const { consultationId } = useParams();
@@ -14,9 +14,9 @@ const Intro = () => {
   if (consultation)
     return (
       <main>
-        <AEditor />
+      
         <div className="wrapper">
-          <div className="intro">{consultation.description}</div>
+          <div className="intro"><Editor /></div>
         </div>
       </main>
     );

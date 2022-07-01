@@ -55,6 +55,8 @@ export async function getUser(req: any, res: any) {
   }
 }
 
+// middleware
+
 export async function decodeUser(req, res, next) {
   try {
     const { user } = req.cookies;
@@ -69,6 +71,7 @@ export async function decodeUser(req, res, next) {
     const userDecoded = jwt.decode(show, secret);
 
     req.user = userDecoded;
+    console.log(userDecoded)
     next();
   } catch (error) {
     console.error(error);

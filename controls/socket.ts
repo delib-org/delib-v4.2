@@ -7,6 +7,9 @@ const cryptr = new Cryptr(cryptSecret);
 
 export async function userConnect(socket: any) {
   console.log("user connected", socket.id);
+  
+  //join and leave consultation
+
   socket.on("join-consultation", (consultationId: any) => {
     if (consultationId) {
       socket.join(consultationId);
@@ -19,6 +22,8 @@ export async function userConnect(socket: any) {
       console.log(`user ${socket.id} LEFT ${consultationId}`);
     }
   });
+
+  //consultation message
 
   socket.on("consultation-message", async ({ consultationId, message }) => {
     try {
@@ -45,6 +50,9 @@ export async function userConnect(socket: any) {
     }
   });
 
+  
+
+  // ---- helpers ---
   function getUser() {
     const cookies = socket.handshake.headers.cookie;
     const cookiesArray = cookies.split("; ");

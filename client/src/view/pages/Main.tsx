@@ -1,4 +1,4 @@
-import { useEffect, useState} from "react";
+import { useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import { Outlet, Link } from "react-router-dom";
 import { getUserConsultations } from "../../control/db/consutationsDB";
@@ -6,21 +6,18 @@ import { createConsultations } from "../../control/slices/consultationsSlice";
 import { getUser } from "../../control/db/userDB";
 import {
   useIsLogged,
-  useAppDispatch,
-  useAppSelector,
+  useAppDispatch
 } from "../../control/hooks";
 import { setLogin } from "../../control/slices/userSlice";
 import { UserSchema } from "../../model/userModelC";
-import Spinner from "../components/Spinner";
+
 
 const Main = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const logged = useIsLogged();
-  const consultations = useAppSelector(
-    (state) => state.consultations.consultations
-  );
-  const [waiting, setWaiting] = useState<boolean>(false);
+ 
+ 
 
    useEffect(() => {
     if (!logged) {
@@ -40,22 +37,22 @@ const Main = () => {
         });
     } else {
       //get user consultations
-      setWaiting(true);
+    
       getUserConsultations().then((consultationsDB) => {
         if (consultationsDB) {
           dispatch(createConsultations(consultationsDB));
-          setWaiting(false);
+         
         }
       })
       .catch(err=>{
-        setWaiting(false);
+      
         console.error(err);
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [logged]);
   return (
-    <div>
+    <div className="page">
       <Link to='/consultations'><h1>התייעצויות</h1></Link>
       <Outlet />
     </div>
