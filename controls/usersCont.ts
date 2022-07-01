@@ -1,6 +1,6 @@
 import jwt from "jwt-simple";
 import jwt_decode from "jwt-decode";
-import UserModel, { UserProps } from "../model/userModel";
+import UserModel, { User } from "../model/userModel";
 const Cryptr = require("cryptr");
 const cryptSecret = process.env.CRYPT;
 const cryptr = new Cryptr(cryptSecret);
@@ -13,7 +13,7 @@ export async function login(req: any, res: any) {
     if (!credential || typeof credential !== "string")
       throw new Error("Credentials should be a string");
 
-    const decoded: UserProps = jwt_decode(credential);
+    const decoded: User = jwt_decode(credential);
 
  
     const { name, given_name, family_name, email, picture, sub } = decoded;
@@ -50,14 +50,14 @@ export async function getUser(req: any, res: any) {
     res.send({ user });
 
   } catch (error) {
-    console.error(error);
+    console.error(`Error in getUser: ${error.message}`);
     res.send({ error: error.message, user:false });
   }
 }
 
 // middleware
 
-export async function decodeUser(req, res, next) {
+export async function decodeUser(req:any, res:any, next:any) {
   try {
     const { user } = req.cookies;
     if (!user) {

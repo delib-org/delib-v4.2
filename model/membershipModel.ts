@@ -17,6 +17,18 @@ const MembershipSchema = new mongoose.Schema({
     }
 })
 
+export enum Role{
+    MEMBER = 'member',
+    ADMIN = 'admin',
+    CREATOR = 'creator'
+}
+
+export interface Membership{
+    memberId:string,
+    groupId:string,
+    role:Role
+}
+
 const MembershipModel = mongoose.model('memberships',MembershipSchema);
 
 export default MembershipModel;

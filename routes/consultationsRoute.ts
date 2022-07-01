@@ -5,7 +5,7 @@ import { addConsultation, getUserConsultations,getConsultation,addText,getText }
 
 router.post('/add-consultation',decodeUser, addConsultation)
 .get('/get-user-consultations',decodeUser, getUserConsultations)
-.get('/get-consultation', getConsultation)
+.get('/get-consultation', decodeUser, getConsultation)
 .post('/add-text',addText)
 .get('/get-text', getText)
 

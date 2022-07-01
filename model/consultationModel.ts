@@ -33,6 +33,19 @@ export const RoleSchema = new mongoose.Schema({
         default:'member'
     }
 })
+export const GroupTypeSchema = new mongoose.Schema({
+    value:{
+        type:String,
+        enum:['public', 'close', 'secret'],
+        default:'public'
+    }
+})
+
+export enum GroupeType{
+    PUBLIC = 'public',
+    CLOSE = 'close',
+    SECRET = 'secret'
+}
 
 export const ConsultationSchema = new mongoose.Schema({
     name:String,
@@ -42,7 +55,9 @@ export const ConsultationSchema = new mongoose.Schema({
         text:String,
         read:[RoleSchema], //[member, admin, creator]
         write:[RoleSchema],//[member, admin, creator]
-    }
+    },
+    type:GroupTypeSchema
+
 })
 
 export const ConsulationModel = mongoose.model('consultations', ConsultationSchema)

@@ -1,8 +1,13 @@
 import mongoose from "mongoose";
-import ConsulationModel, { ConsultationValidation,} from "../model/consultationModel";
+import ConsultaionModel, {
+  ConsultationValidation,
+} from "../model/consultationModel";
+import MembershipModel, { Membership, Role } from "../model/membershipModel";
+import { User } from "../model/userModel";
 
 export async function addConsultation(req: any, res: any) {
   try {
+    console.log("addConsultation");
     const { consultation } = req.body;
     if (!consultation) throw new Error("consultation is missing");
     const user = req.user;
@@ -13,17 +18,28 @@ export async function addConsultation(req: any, res: any) {
     const { value, error } = ConsultationValidation.validate(consultation);
     if (error) throw error;
     if (consultation._id) {
-      const consultationDB = await ConsulationModel.findOneAndUpdate(
+      const consultationDB = await ConsultaionModel.findOneAndUpdate(
         { _id: consultation._id },
         consultation,
         {
           upsert: true, // Make this update into an upsert
         }
       );
+     
+      // const membershipDB = await MembershipModel.create({memberId:user.sub, groupId:consultationDB._id, role:Role.CREATOR});
+      // console.log('Membership:', membershipDB)
       res.send({ success: true, consultation: consultationDB });
     } else {
-      const newConsultation = new ConsulationModel(consultation);
+      const newConsultation = new ConsultaionModel(consultation);
       const consultationDB = await newConsultation.save();
+
+      const newMembership = new MembershipModel({
+        memberId: user.sub,
+        groupId: consultationDB._id,
+        role: Role.CREATOR,
+      });
+      console.log("newMembership:", newMembership);
+      await newMembership.save();
       res.send({ success: true, consultation: consultationDB });
     }
   } catch (err) {
@@ -36,7 +52,7 @@ export async function getUserConsultations(req: any, res: any) {
   try {
     const user = req.user;
     if (!user) throw new Error("User is missing");
-    const consultationsDB = await ConsulationModel.find({
+    const consultationsDB = await ConsultaionModel.find({
       create: { sub: user.sub },
     });
     if (!Array.isArray(consultationsDB))
@@ -51,11 +67,22 @@ export async function getUserConsultations(req: any, res: any) {
 
 export async function getConsultation(req: any, res: any) {
   try {
+    const user = req.user;
+    if (!user) throw new Error("No user in req");
+    console.log(user);
     const { consultationId } = req.query;
     if (!consultationId) throw new Error("consultationId is missing");
-    const consultationDB = await ConsulationModel.findOne({
-      _id: consultationId,
-    });
+
+    const [role, consultationDB] = await Promise.all([
+      getUserRoleInConsultation(user, consultationId),
+      ConsultaionModel.findOne({
+        _id: consultationId,
+      }),
+    ]);
+    // const consultationDB = await ConsultaionModel.findOne({
+    //   _id: consultationId,
+    // });
+    console.log("role:", role);
     if (!consultationDB)
       throw new Error(`Consulatation id: ${consultationId} is missing in DB`);
 
@@ -66,21 +93,44 @@ export async function getConsultation(req: any, res: any) {
   }
 }
 
+async function getUserRoleInConsultation(
+  user: User,
+  consultationId: string
+): Promise<Role | false> {
+  try {
+    const membershipDB: Membership = await MembershipModel.findOne({
+      memberId: user.sub,
+      groupId: consultationId,
+    });
+    if (!membershipDB)
+      throw new Error(
+        `No membership for user ${user.name} in consultationId ${consultationId}`
+      );
+    if (!("role" in MembershipModel))
+      throw new Error(
+        `No membership role for user ${user.name} in consultationId ${consultationId}`
+      );
+    return membershipDB.role;
+  } catch (error) {
+    console.error(`Error in getUserRoleInConsultation: ${error.message}`);
+    return false;
+  }
+}
+
 const TextSchema = new mongoose.Schema({
-  saveState: String
+  saveState: String,
 });
 
-const TextModel = mongoose.model('texts',TextSchema);
+const TextModel = mongoose.model("texts", TextSchema);
 
 export async function addText(req: any, res: any) {
   try {
     const { saveState } = req.body;
     if (!saveState) throw new Error("saveState is missing");
-    const textDB = await TextModel.create({saveState});
-    if (!textDB)
-      throw new Error(`No text was saved`);
+    const textDB = await TextModel.create({ saveState });
+    if (!textDB) throw new Error(`No text was saved`);
 
-    res.send({ success: true, text:textDB });
+    res.send({ success: true, text: textDB });
   } catch (err) {
     console.error(err);
     res.send({ error: err.message });
@@ -89,12 +139,11 @@ export async function addText(req: any, res: any) {
 
 export async function getText(req: any, res: any) {
   try {
-    const {textId} = req.query;
-    console.log(textId)
+    const { textId } = req.query;
+    console.log(textId);
     if (!textId) throw new Error("textId is missing");
     const textDB = await TextModel.findById(textId);
-    if (!textDB)
-      throw new Error("Text was not found ");
+    if (!textDB) throw new Error("Text was not found ");
 
     res.send({ success: true, text: textDB });
   } catch (err) {
