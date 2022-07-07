@@ -1,9 +1,25 @@
-import React from 'react'
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { getMembershipPending } from "../../../../control/db/membershipDB";
+import { MembershipPending } from "../../../../control/slices/membershipSlice";
+
+//get group requeasts
 
 const ConsultationAdminMembers = () => {
-  return (
-    <div>ConsultationAdminMembers</div>
-  )
-}
+  const { consultationId } = useParams();
 
-export default ConsultationAdminMembers
+  useEffect(() => {
+    if (consultationId) {
+      getMembershipPending(consultationId)
+        .then((pendings: any) => {
+          console.log(pendings);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  }, [consultationId]);
+  return <div>ConsultationAdminMembers</div>;
+};
+
+export default ConsultationAdminMembers;

@@ -1,7 +1,7 @@
 import { io } from "../server";
 import MessageModel from "../model/messagesModel";
 import jwt from "jwt-simple";
-import AskToJoinModel from "../model/askToJoinModel";
+import PendingModel from "../model/pendingModel";
 const Cryptr = require("cryptr");
 const cryptSecret = process.env.CRYPT;
 const cryptr = new Cryptr(cryptSecret);
@@ -60,7 +60,7 @@ export async function userConnect(socket: any) {
      
       io.to(consultationId).emit("ask-to-join-consultation", user);
 
-      const t = await AskToJoinModel.create({id:`${user.sub}-${consultationId}`, user, groupId:consultationId, status:'waiting'});
+      const t = await PendingModel.create({id:`${user.sub}-${consultationId}`, user, groupId:consultationId, status:'waiting'});
       console.log(t);
     } catch (error) {
       console.error(error);

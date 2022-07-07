@@ -2,7 +2,7 @@ import { string } from "joi";
 import mongoose from "mongoose";
 import { UserSchema } from "./userModel";
 
-const AskToJoinSchema = new mongoose.Schema({
+const PendingSchema = new mongoose.Schema({
     id:{
         type:String,
         unique:true
@@ -23,5 +23,5 @@ const AskToJoinSchema = new mongoose.Schema({
     }
 })
 
-const AskToJoinModel = mongoose.model('asks',AskToJoinSchema);
-export default AskToJoinModel;
+const PendingModel = mongoose.model('pendings',PendingSchema);
+export default PendingModel;

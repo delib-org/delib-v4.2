@@ -1,10 +1,17 @@
+import Joi from 'joi';
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { UserSchema } from "../../model/userModelC";
-interface UserProps {
+export interface UserProps {
   name: string;
   sub: string;
   picture: string;
 }
+
+export const userValidate = Joi.object({
+  name:Joi.string().required(),
+  sub:Joi.string().required(),
+  picture:Joi.string().required()
+})
 
 export interface UserState {
   user: UserProps | null;

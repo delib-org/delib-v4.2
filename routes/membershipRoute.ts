@@ -1,8 +1,8 @@
 import express from 'express';
-import { getMembership } from '../controls/membershipCont';
+import { getMembership, getPending } from '../controls/membershipCont';
 const router = express.Router();
 import { decodeUser } from '../controls/usersCont';
 
-router.get('/get-membership',decodeUser ,getMembership)
+router.get('/get-pending',decodeUser ,getPending)
 
 export default router
