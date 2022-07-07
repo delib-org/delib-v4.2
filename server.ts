@@ -28,7 +28,7 @@ const uri = process.env.MONGODB_URI;
 
 app.use(cors());
 
-mongoose.connect(uri).then(()=>console.log('connect to DB!')).catch(err=>console.log(err.message));
+mongoose.connect(uri).then(()=>console.info('connect to DB!')).catch(err=>console.error(err.message));
 
 app.use(express.static('client/build'))
 
@@ -37,12 +37,15 @@ io.on("connection", (socket: any) => {
 });
 
 import usersRouter from './routes/usersRoute';
-app.use('/users', usersRouter);
 import consutationsRouter from './routes/consultationsRoute';
+import membershipRouter from './routes/membershipRoute';
+
+app.use('/users', usersRouter);
 app.use('/cosultations', consutationsRouter);
+app.use('/memberships', membershipRouter)
 
 
 
 server.listen(port, () => {
-  console.log(`listening on *:${port}`);
+  console.info(`listening on *:${port}`);
 });

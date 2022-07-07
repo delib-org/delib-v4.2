@@ -15,6 +15,8 @@ import NotFound from "./view/pages/NotFound";
 import "./view/styles/app.scss";
 import ConsultationAsk from "./view/pages/consultations/ConsultationAsk/ConsultationAsk";
 import ConsultationDontExist from "./view/pages/consultations/ConsultationDontExist";
+import ConsultationAdmin from "./view/pages/consultations/consultationAdmin/ConsultationAdmin";
+import ConsultationAdminMembers from "./view/pages/consultations/consultationAdmin/ConsultationAdminMembers";
 
 function App() {
   return (
@@ -27,6 +29,10 @@ function App() {
           <Route path=":consultationId" element={<Consultation />} />
           <Route path="new-consultation" element={<NewConsultation />} />
           <Route path='consultation-not' element={<ConsultationDontExist/>}/>
+          <Route path='admin/:consultationId' element={<ConsultationAdmin />}>
+            <Route index element={<NewConsultation />} />
+            <Route path='members' element={<ConsultationAdminMembers />}/>
+          </Route>
         </Route>
         <Route path='/consultation-ask/:consultationId' element={<ConsultationAsk />} />      
       </Routes>

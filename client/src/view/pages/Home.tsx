@@ -23,8 +23,8 @@ const Home = () => {
     if (!logged) {
       getUser()
         .then((userDB: any) => {
-          const { value, error } = UserSchema.validate(userDB);console.log('sfsdfsdfsdf')
-          console.log(value, error)
+          const { value, error } = UserSchema.validate(userDB);
+      
           if (error) throw error;
          
           if (value) {
@@ -60,7 +60,7 @@ const Home = () => {
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -74,7 +74,7 @@ const Home = () => {
           <GoogleLogin
             onSuccess={handleGoogleLogin}
             onError={() => {
-              console.log("Login Failed");
+              console.error("Login Failed");
             }}
           />
         </div>

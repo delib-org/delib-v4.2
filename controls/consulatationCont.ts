@@ -24,8 +24,6 @@ export async function addConsultation(req: any, res: any) {
         }
       );
 
-      // const membershipDB = await MembershipModel.create({memberId:user.sub, groupId:consultationDB._id, role:Role.CREATOR});
-      // console.log('Membership:', membershipDB)
       res.send({ success: true, consultation: consultationDB });
     } else {
       const newConsultation = new ConsultaionModel(consultation);
@@ -67,7 +65,7 @@ export async function getConsultation(req: any, res: any) {
   try {
     const user = req.user;
     if (!user) throw new Error("No user in req");
-    console.log(user);
+
     const { consultationId } = req.query;
     if (!consultationId) throw new Error("consultationId is missing");
 
@@ -83,28 +81,38 @@ export async function getConsultation(req: any, res: any) {
 
     if (!consultationDB)
       throw new Error(`Consulatation id: ${consultationId} is missing in DB`);
-    
-      //not a mebmer but the group is public, so register member to the group
+
+    //not a mebmer but the group is public, so register member to the group
     //if group is close, and the user has no role, redirect to ask to join group page
     //if the group is secret, and the user has no role, redirect to consultations
-    if (role) {
+    if (role === Role.ADMIN || role === Role.CREATOR || role === Role.MEMBER) {
       res.send({ success: true, consultation: consultationDB, userRole: role });
     } else if (consultationDB.type === GroupType.PUBLIC) {
+
+      console.log('user.sub',user.sub)
       await MembershipModel.create({
-        MemberId: user.sub,
+        memberId: user.sub,
         groupId: consultationId,
         role: Role.MEMBER,
       });
       res.send({
         success: true,
         consultation: consultationDB,
+        userRole: Role.MEMBER,
       });
     } else if (consultationDB.type === GroupType.CLOSE) {
-      res.send({
-        consultation:consultationDB,
-        success: false,
-        redirect: `/consultation-ask/${consultationDB._id}`,
-      });
+      //check if banned
+      if (role === Role.BANNED) {
+        res.send({
+          success: false,
+          redirect: `/consultations/consultation-not`,
+        });
+      } else {
+        res.send({
+          success: false,
+          redirect: `/consultation-ask/${consultationDB._id}`,
+        });
+      }
     } else if (consultationDB.type === GroupType.SECRET) {
       res.send({ success: false, redirect: `/consultations/consultation-not` });
     } else {
@@ -121,15 +129,12 @@ async function getUserRoleInConsultation(
   consultationId: string
 ): Promise<Role | false> {
   try {
-    console.log('user:', user)
+    console.log("user", user);
     const membershipDB: Membership = await MembershipModel.findOne({
       memberId: user.sub,
       groupId: consultationId,
     });
-    if (!membershipDB)
-      throw new Error(
-        `No membership for user ${user.name} in consultationId ${consultationId}`
-      );
+    if (!membershipDB) return Role.NONE;
     if (!("role" in membershipDB))
       throw new Error(
         `No membership role for user ${user.name} in consultationId ${consultationId}`
@@ -164,7 +169,7 @@ export async function addText(req: any, res: any) {
 export async function getText(req: any, res: any) {
   try {
     const { textId } = req.query;
-    console.log(textId);
+
     if (!textId) throw new Error("textId is missing");
     const textDB = await TextModel.findById(textId);
     if (!textDB) throw new Error("Text was not found ");

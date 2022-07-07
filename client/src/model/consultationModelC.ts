@@ -5,7 +5,7 @@ export interface ConsultationProps{
     _id?:string;
     name:string;
     description:string;
-    userRole?:Role
+    role?:Role
 }
 
 export const ConsultationValidation = Joi.object({

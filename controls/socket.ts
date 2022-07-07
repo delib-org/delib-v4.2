@@ -7,20 +7,20 @@ const cryptSecret = process.env.CRYPT;
 const cryptr = new Cryptr(cryptSecret);
 
 export async function userConnect(socket: any) {
-  console.log("user connected", socket.id);
+  console.info("user connected", socket.id);
 
   //join and leave consultation
 
   socket.on("join-consultation", (consultationId: any) => {
     if (consultationId) {
       socket.join(consultationId);
-      console.log(`user ${socket.id} joined ${consultationId}`);
+      console.info(`user ${socket.id} joined ${consultationId}`);
     }
   });
   socket.on("leave-consultation", (consultationId: any) => {
     if (consultationId) {
       socket.leave(consultationId);
-      console.log(`user ${socket.id} LEFT ${consultationId}`);
+     
     }
   });
 
@@ -57,7 +57,7 @@ export async function userConnect(socket: any) {
 
 
       if (!user) throw new Error("User is missing in ask-to-join-consultation");
-      console.log("ask-to-join-consultation", user);
+     
       io.to(consultationId).emit("ask-to-join-consultation", user);
 
       const t = await AskToJoinModel.create({id:`${user.sub}-${consultationId}`, user, groupId:consultationId, status:'waiting'});

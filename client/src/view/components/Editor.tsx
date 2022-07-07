@@ -64,7 +64,7 @@ function AEditor() {
   
     const saveStateString = JSON.stringify(saveState);
     const { data } = await axios.post("/cosultations/add-text", { saveState:saveStateString });
-  console.log(data)
+ 
     try {
     } catch (error) {
       console.error(error);

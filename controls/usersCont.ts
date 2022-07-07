@@ -71,7 +71,7 @@ export async function decodeUser(req:any, res:any, next:any) {
     const userDecoded = jwt.decode(show, secret);
 
     req.user = userDecoded;
-    console.log(userDecoded)
+   
     next();
   } catch (error) {
     console.error(error);

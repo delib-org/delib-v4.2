@@ -12,7 +12,7 @@ const MembershipSchema = new mongoose.Schema({
     role:{
         type:String,
         required:true,
-        enum:['creator','admin','member'],
+        enum:['creator','admin','member','none', 'banned'],
         default:'member'
     }
 })
@@ -20,7 +20,9 @@ const MembershipSchema = new mongoose.Schema({
 export enum Role{
     MEMBER = 'member',
     ADMIN = 'admin',
-    CREATOR = 'creator'
+    CREATOR = 'creator',
+    NONE = 'none',
+    BANNED = 'banned'
 }
 
 export interface Membership{

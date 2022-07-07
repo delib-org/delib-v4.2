@@ -1,4 +1,5 @@
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
+import { Role } from "../model/role";
 import type { RootState, AppDispatch } from "../model/store";
 
 // Use throughout your app instead of plain `useDispatch` and `useSelector`
@@ -19,3 +20,12 @@ export function useIsLogged() {
     return false;
   }
 }
+
+// export function useIsMember():Role{
+//   try {
+    
+//   } catch (error) {
+//     console.error(error);
+//     return Role.NONE;
+//   }
+// }

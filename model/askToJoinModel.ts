@@ -18,7 +18,7 @@ const AskToJoinSchema = new mongoose.Schema({
     status:{
         type:String,
         required:true,
-        enum:['approved','waiting','rejected'],
+        enum:['approved','waiting','banned'],
         default:'waiting'
     }
 })

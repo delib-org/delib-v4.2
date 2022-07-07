@@ -1,5 +1,7 @@
 export enum Role{
     ADMIN = 'admin',
     MEMBER = 'member',
-    CREATOR = 'creator'
+    CREATOR = 'creator',
+    NONE = 'none',
+    BANNED = 'banned'
 }
