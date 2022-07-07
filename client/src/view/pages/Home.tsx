@@ -23,8 +23,10 @@ const Home = () => {
     if (!logged) {
       getUser()
         .then((userDB: any) => {
-          const { value, error } = UserSchema.validate(userDB);
-          if (error) console.error(error);
+          const { value, error } = UserSchema.validate(userDB);console.log('sfsdfsdfsdf')
+          console.log(value, error)
+          if (error) throw error;
+         
           if (value) {
             dispatch(setLogin(value));
           }

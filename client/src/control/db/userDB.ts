@@ -7,17 +7,17 @@ export function getUser() {
       axios
         .get("/users/get-user")
         .then(({ data }) => {
-          const { user } = data;
-          if (!user) reject(false);
+          const { user, error} = data;
+          if (!user) reject(error);
           resolve(user);
         })
         .catch((err) => {
           console.error(err);
-          reject(false);
+          reject(err);
         });
     } catch (error) {
       console.error(error);
-      reject(false);
+      reject(error);
     }
   });
 }
