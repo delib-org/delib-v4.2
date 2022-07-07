@@ -22,35 +22,47 @@ export interface MembershipPending {
   status: MembershipStatus;
 }
 
-export const membershipPendingValidate = Joi.object({
-  grpupId: Joi.string().required(),
+const pendingValidation = Joi.object({
+  _id:Joi.string(),
+  __v:Joi.number(),
+  groupId: Joi.string().required(),
+  id: Joi.string().required(),
   user: userValidate,
   status: Joi.string().required(),
 });
+export const pendingsValidate = Joi.array().items(pendingValidation)
+
 
 export interface ConsultationsState {
-  pending: Array<MembershipPending>;
+  pendings: Array<MembershipPending>;
 }
 
 const initialState: ConsultationsState = {
-  pending: [],
+  pendings: [],
 };
 
-export const consultationsSlice = createSlice({
+export const membersSlice = createSlice({
   name: "membership",
   initialState,
   reducers: {
-    updatePendings: (state, action: PayloadAction<ConsultationProps>) => {
+    updatePendings: (state, action: PayloadAction<MembershipPending[]>) => {
       try {
-        const { value, error } = membershipPendingValidate.validate(
+        console.log(action.payload)
+        const { value, error } = pendingsValidate.validate(
           action.payload
         );
 
         if (!value || error) throw error;
 
-        const membershipPending: MembershipPending = value;
+        const membershipsPending: MembershipPending[] = action.payload;
+        membershipsPending.forEach(membershipPending => {
+          console.log(membershipPending)
+          state.pendings = updateArray(state.pendings, membershipPending);
+        });
 
-        state.pending = updateArray(state.pending, membershipPending);
+       
+
+        
       } catch (error) {
         console.error(error)
       }
@@ -60,6 +72,6 @@ export const consultationsSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const { updatePendings } =
-  consultationsSlice.actions;
+membersSlice.actions;
 
-export default consultationsSlice.reducer;
+export default membersSlice.reducer;

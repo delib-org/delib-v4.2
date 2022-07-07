@@ -8,6 +8,8 @@ export interface UserProps {
 }
 
 export const userValidate = Joi.object({
+  _id:Joi.string(),
+  __v:Joi.number(),
   name:Joi.string().required(),
   sub:Joi.string().required(),
   picture:Joi.string().required()

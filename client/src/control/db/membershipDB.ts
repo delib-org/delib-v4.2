@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Role } from "../../model/role";
-import { MembershipPending } from "../slices/membershipSlice";
+import { MembershipPending } from "../slices/membersSlice";
 
 export async function getMembership(groupId: string): Promise<Role> {
   try {
@@ -30,6 +30,7 @@ export async function getMembershipPending(
     }: { pendings: Array<MembershipPending>; error: any } = data;
 
     if (error) throw error;
+    console.log(pendings)
     return pendings;
   } catch (error) {
     console.error(error);

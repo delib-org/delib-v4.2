@@ -3,6 +3,7 @@ export function updateArray(currentArray:Array<any>, newItem:any):Array<any>{
         const arrayTemp = [...currentArray];
       
         if(!newItem._id){
+            console.log(newItem)
             arrayTemp.push(newItem);
         } else{
             //find arry;
