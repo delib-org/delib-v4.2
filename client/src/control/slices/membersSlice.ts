@@ -20,6 +20,7 @@ export interface MembershipPending {
   grpupId: string;
   user: UserProps;
   status: MembershipStatus;
+  id:string;
 }
 
 const pendingValidation = Joi.object({

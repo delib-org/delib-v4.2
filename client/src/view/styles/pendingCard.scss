@@ -1,0 +1,16 @@
+.pendingCard{
+    display: flex;
+    align-items: center;
+    >*{
+        margin: 0px 10px;
+    }
+    img{
+        height: 30px;
+        width: 30px;
+        border-radius: 50px;
+    }
+
+    &__btns{
+        display: flex;
+    }
+}
