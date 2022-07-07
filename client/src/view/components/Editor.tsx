@@ -63,7 +63,7 @@ function AEditor() {
   async function handleSave() {
   
     const saveStateString = JSON.stringify(saveState);
-    const { data } = await axios.post("/cosultations/add-text", { saveState:saveStateString });
+    await axios.post("/cosultations/add-text", { saveState:saveStateString });
  
     try {
     } catch (error) {
