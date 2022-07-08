@@ -9,6 +9,21 @@ import { updateArray } from "../helpers";
 import { UserProps } from "./userSlice";
 
 import { userValidate } from "./userSlice";
+import { Role } from "../../model/role";
+
+export interface Membership{
+  memberId:string;
+  user:UserProps;
+  groupId:string;
+  role:Role
+}
+
+export const membershipValidation = Joi.object({
+  memberId:Joi.string().required(),
+  user:userValidate,
+  groupId:Joi.string().required(),
+  role:Joi.string().valid('member','creator','admin')
+})
 
 export enum MembershipStatus {
   WAITING = "waiting",
@@ -36,10 +51,12 @@ export const pendingsValidate = Joi.array().items(pendingValidation)
 
 export interface ConsultationsState {
   pendings: Array<MembershipPending>;
+  members:Array<Membership>;
 }
 
 const initialState: ConsultationsState = {
   pendings: [],
+  members:[]
 };
 
 export const membersSlice = createSlice({

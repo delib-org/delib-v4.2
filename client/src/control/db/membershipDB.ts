@@ -1,6 +1,12 @@
 import axios from "axios";
-import { Role } from "../../model/role";
-import { MembershipPending } from "../slices/membersSlice";
+import Joi from "joi";
+import { Role, RoleValidate } from "../../model/role";
+import {
+  Membership,
+  MembershipPending,
+  MembershipStatus,
+  membershipValidation,
+} from "../slices/membersSlice";
 
 export async function getMembership(groupId: string): Promise<Role> {
   try {
@@ -23,17 +29,52 @@ export async function getMembershipPending(
     const { data } = await axios.get(
       `/memberships/get-pending?groupId=${groupId}`
     );
-    console.log(data)
+    console.log(data);
     const {
       pendings,
       error,
     }: { pendings: Array<MembershipPending>; error: any } = data;
 
     if (error) throw error;
-    console.log(pendings)
+    console.log(pendings);
     return pendings;
   } catch (error) {
     console.error(error);
     return [];
+  }
+}
+
+export async function setMembership(
+  role: Role,
+  groupId: string | undefined,
+  userSub: string
+): Promise<void> {
+  try {
+    let { error } = RoleValidate.validate(role);
+    if (error) throw error;
+    error = undefined;
+    if (!groupId) throw new Error("GroupId is missing");
+    console.log("groupId", groupId);
+    if (!userSub) throw new Error("No user sub");
+    
+
+    const { data }: any = await axios.post("/memberships/set-membership", {
+      role,
+      groupId,
+      userSub,
+    });
+    if (!data) throw new Error("no data");
+    const {
+      status,
+      membership,
+    }: { status: MembershipStatus; membership: Membership } = data;
+
+     error = membershipValidation.validate(membership).error;
+     if(error) throw error;
+
+     console.log(membership)
+  
+  } catch (error) {
+    console.error(error);
   }
 }

@@ -4,6 +4,7 @@ import ConsultaionModel, {
   GroupType,
 } from "../model/consultationModel";
 import MembershipModel, { Membership, Role } from "../model/membershipModel";
+import PendingModel from "../model/pendingModel";
 import { User } from "../model/userModel";
 
 export async function addConsultation(req: any, res: any) {
@@ -32,6 +33,7 @@ export async function addConsultation(req: any, res: any) {
       const newMembership = new MembershipModel({
         memberId: user.sub,
         groupId: consultationDB._id,
+        user:user,
         role: Role.CREATOR,
       });
       console.log("newMembership:", newMembership);
@@ -48,6 +50,7 @@ export async function getUserConsultations(req: any, res: any) {
   try {
     const user = req.user;
     if (!user) throw new Error("User is missing");
+    
     const consultationsDB = await ConsultaionModel.find({
       create: { sub: user.sub },
     });
@@ -108,9 +111,13 @@ export async function getConsultation(req: any, res: any) {
           redirect: `/consultations/consultation-not`,
         });
       } else {
+        //ask to join
+        const pendingDB = await PendingModel.findOne({memberId:user.sub, groupId:consultationId})
         res.send({
           success: false,
           redirect: `/consultation-ask/${consultationDB._id}`,
+          pending:pendingDB,
+          consultation:consultationDB
         });
       }
     } else if (consultationDB.type === GroupType.SECRET) {

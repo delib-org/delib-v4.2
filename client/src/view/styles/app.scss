@@ -67,4 +67,10 @@ div, p{
 
 }
 
+.clr{
+    &--waiting{
+        color: orange !important;
+    }
+}
+
 

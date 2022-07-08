@@ -7,11 +7,16 @@ import { socket } from "../../../..";
 const ConsultationAsk = () => {
   const { consultationId } = useParams();
   const [name, setName] = useState<string>("");
+  const [waiting, setWaiting] = useState<boolean>(false);
   useEffect(() => {
     try {
       if (consultationId) {
         getConsultation(consultationId)
-          .then(({ consultation }) => {
+          .then(({ consultation, pending }) => {
+          
+            if(pending && pending.status){
+              setWaiting(true)
+            }
             if (consultation) {
               setName(consultation.name);
             }
@@ -23,9 +28,10 @@ const ConsultationAsk = () => {
     } catch (error) {}
   }, [consultationId]);
 
-  function handleAskToJoin(){
+  function handleAskToJoin() {
     try {
-      socket.emit('ask-to-join-consultation',{consultationId})
+      socket.emit("ask-to-join-consultation", { consultationId });
+      setWaiting(true);
     } catch (error) {
       console.error(error);
     }
@@ -37,10 +43,16 @@ const ConsultationAsk = () => {
           <p>ניסתם להצטרף להתייעצות</p>
           <h1>{name}</h1>
           <p>זאת התייעצות סגורה</p>
-          <p>לחצו כאן כדי לבקש להצטרף לקבוצה</p>
-          <div className="btns">
-            <button onClick={handleAskToJoin}>בקשת הצטרפות</button>
-          </div>
+          {waiting ? (
+            <p className="clr--waiting">אנא המתינו לתשובה</p>
+          ) : (
+            <>
+              <p>לחצו כאן כדי לבקש להצטרף לקבוצה</p>
+              <div className="btns">
+                <button onClick={handleAskToJoin}>בקשת הצטרפות</button>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
