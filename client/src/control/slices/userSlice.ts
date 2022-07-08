@@ -5,6 +5,10 @@ export interface UserProps {
   name: string;
   sub: string;
   picture: string;
+  email?:string,
+  family_name?:string,
+  given_name?:string,
+  last_enter?:Date
 }
 
 export const userValidate = Joi.object({
@@ -12,7 +16,12 @@ export const userValidate = Joi.object({
   __v:Joi.number(),
   name:Joi.string().required(),
   sub:Joi.string().required(),
-  picture:Joi.string().required()
+  picture:Joi.string().required(),
+  email:Joi.string(),
+  family_name:Joi.string(),
+  given_name:Joi.string(),
+  last_enter:Joi.date()
+
 })
 
 export interface UserState {

@@ -48,15 +48,19 @@ export async function setMembership(
   role: Role,
   groupId: string | undefined,
   userSub: string
-): Promise<void> {
+): Promise<{
+  membership?: Membership;
+  status?: MembershipStatus;
+  error?: any;
+}> {
   try {
     let { error } = RoleValidate.validate(role);
+   
     if (error) throw error;
     error = undefined;
     if (!groupId) throw new Error("GroupId is missing");
     console.log("groupId", groupId);
     if (!userSub) throw new Error("No user sub");
-    
 
     const { data }: any = await axios.post("/memberships/set-membership", {
       role,
@@ -69,12 +73,16 @@ export async function setMembership(
       membership,
     }: { status: MembershipStatus; membership: Membership } = data;
 
-     error = membershipValidation.validate(membership).error;
-     if(error) throw error;
+    error = membershipValidation.validate(membership).error;
+    
+    if (error) throw error;
+    console.error(error)
 
-     console.log(membership)
-  
-  } catch (error) {
+    console.log(membership);
+
+    return { membership, status };
+  } catch (error: any) {
     console.error(error);
+    return { error: error.message };
   }
 }

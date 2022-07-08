@@ -5,7 +5,7 @@ import {
   ConsultationValidation,
   ConsultationsValidation,
 } from "../../model/consultationModelC";
-import { updateArray } from "../helpers";
+import { reomveFromArray, updateArray } from "../helpers";
 import { UserProps } from "./userSlice";
 
 import { userValidate } from "./userSlice";
@@ -19,6 +19,8 @@ export interface Membership{
 }
 
 export const membershipValidation = Joi.object({
+  _id:Joi.string(),
+  __v:Joi.number(),
   memberId:Joi.string().required(),
   user:userValidate,
   groupId:Joi.string().required(),
@@ -47,6 +49,7 @@ const pendingValidation = Joi.object({
   status: Joi.string().required(),
 });
 export const pendingsValidate = Joi.array().items(pendingValidation)
+export const membershipsValidate = Joi.array().items(membershipValidation)
 
 
 export interface ConsultationsState {
@@ -74,13 +77,33 @@ export const membersSlice = createSlice({
 
         const membershipsPending: MembershipPending[] = action.payload;
         membershipsPending.forEach(membershipPending => {
-          console.log(membershipPending)
+
           state.pendings = updateArray(state.pendings, membershipPending);
         });
 
        
+      } catch (error) {
+        console.error(error)
+      }
+    },
+    updateMemberships:(state, action: PayloadAction<{memberships:Membership[],pending: MembershipPending}>) =>{
+      try {
+        console.log(action.payload)
+        const {  error } = membershipsValidate.validate(
+          action.payload.memberships
+        );
 
-        
+        if ( error) throw error;
+
+        const {memberships, pending} = action.payload;
+        if(!memberships) throw new Error('No memberships')
+        memberships.forEach(membership => {
+          console.log(membership)
+          state.members = updateArray(state.members, membership);
+          if(pending) state.pendings = reomveFromArray(state.pendings,pending)
+        });
+
+       
       } catch (error) {
         console.error(error)
       }
@@ -89,7 +112,8 @@ export const membersSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { updatePendings } =
+export const { updatePendings,updateMemberships} =
 membersSlice.actions;
 
 export default membersSlice.reducer;
+
